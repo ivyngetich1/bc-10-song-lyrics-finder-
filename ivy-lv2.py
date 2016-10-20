@@ -10,8 +10,11 @@ from tabulate import tabulate
 apikey = '24ede36df0f39765313f6ffa4058c083'
 apiurl = "http://api.musixmatch.com/ws/1.1/"
 
+
+
 def songfind():
 
+	
 	query_string = input("what song are you looking for?")
 	search_for = apiurl + "track.search?q=" + (urllib.parse.quote(query_string)) + "&apikey=" + apikey + "&format=plain"
 	request = urllib.request.Request(search_for)
@@ -37,9 +40,10 @@ def songfind():
 		
 	print(tabulate(all_songs_list, headers=["song_id","song_title", "song_artist"]))
 
-#songfind()
+songfind()
 
-#def songview():
+def songview():
+	save = False
 	query_lyrics = input ("input song id")
 	lyrics_request = urllib.request.Request(apiurl + "track.lyrics.get?track_id=" + query_lyrics +"&apikey=" + apikey + "&json")
 	response =  urllib.request.urlopen(lyrics_request, timeout=3600) 
@@ -49,51 +53,46 @@ def songfind():
 
 
 	song_lyrics = lyrics_retrieved["message"]["body"]["lyrics"]["lyrics_body"]
-	
 	print(song_lyrics)
 
+	x = input("Want to save? True/False")
+	if x == "True":
+		save = True
+		if save:
+			query_lyrics = input ("input song id")
+			conn = sqlite3.connect('my_playlist.db')
+		
+			c = conn.cursor()
 
+			c.execute("CREATE TABLE IF NOT EXISTS my_lyrics(song_id INTEGER,song_lyrics TEXT)")
+
+			c.execute("INSERT INTO my_lyrics (song_id, song_lyrics) VALUES(?,?)", (query_lyrics,song_lyrics))
+
+			conn.commit()
+			print ("successfully saved")
+
+
+			conn.close()
+			song_clear = input("Do you want to clear the database? y/n")
+
+			if song_clear == "n": 
+				sys.exit()
+			elif song_clear == "y":
+
+				conn = sqlite3.connect('my_playlist.db')
+				
+				c = conn.cursor()
+
+				c.execute("DELETE FROM my_lyrics")
+				
+				conn.commit()
+				print ("successfully cleared")
+
+				conn.close()
+
+songview()
 
 	
-	song_save = input("To save the lyrics press y to cancel saving press n")
-	if song_save == "n": 
-		sys.exit()
-	elif song_save == "y":
-
-		conn = sqlite3.connect('my_playlist.db')
-		print ("successfully saved")	
-		c = conn.cursor()
-
-		c.execute("CREATE TABLE IF NOT EXISTS my_lyrics(song_id INTEGER,song_title TEXT,song_lyrics TEXT, song_artist)")
-
-		c.execute("INSERT INTO my_lyrics (song_id, song_lyrics, song_title, song_artist) VALUES(?,?,?,?)", (song_id,song_title,song_lyrics,artist_name))
-
-
-		conn.commit()
-
-
-		conn.close()
-
-	song_delete = input("Do you want to clear the database? y/n")
-
-	if song_save == "n": 
-		sys.exit()
-	elif song_save == "y":
-
-		conn = sqlite3.connect('my_playlist.db')
-		print ("successfully cleared")	
-		c = conn.cursor()
-
-		c.execute("DELETE FROM my_lyrics")
-
-		conn.commit()
-
-
-		conn.close()
-
-
-songfind()
-
 
 
 
