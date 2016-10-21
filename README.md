@@ -35,5 +35,5 @@ For best results, using a virtual environment is recommended.
 
 Install the app's database. The default SQLite was used for development.
 
-navigate to the bc-10<song_lyrics-finder>
-run the app mylyrics.py
+navigate to the bc-10<song_lyrics-finder> folder
+run the app.py
