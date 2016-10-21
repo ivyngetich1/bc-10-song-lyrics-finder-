@@ -23,20 +23,17 @@ INSTALLATION AND SETUP
 
 Clone this repository on that directory.
 
-    Using SSH;
-
-        git clone git@github.com:andela-lkabui/checkpoint4.git
-
-    Using HTTP;
-
-        https://github.com/andela-lkabui/checkpoint4.git
-
+    
 Navigate to the repo's folder on your computer
 
-    cd lyrics/
+    
 
  For best results, using a virtual environment is recommended.
 
     pip install -r requirements
+   
 
 Install the app's database. The default SQLite was used for development.
+
+navigate to the bc-10<song_lyrics-finder>
+run the app mylyrics.py
