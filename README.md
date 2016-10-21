@@ -22,7 +22,7 @@ INSTALLATION AND SETUP
  Navigate to a directory of choice on terminal.
 
 Clone this repository on that directory.
-
+git@github.com:ivyngetich1/bc-10-song-lyrics-finder-.git
     
 Navigate to the repo's folder on your computer
 
